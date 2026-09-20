@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>LOCK IN // Cyberpunk Neural Matrix</title>
 
-<!-- High-Contrast Blade Runner & Retro Arcade Fonts -->
+<!-- Fonts: Orbitron, Press Start 2P, Share Tech Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -15,15 +15,14 @@
   --bg: #05070A;
   --surface: #0B0F19;
   --surface2: #111827;
-  --surface-hover: #162032;
   --line: #1F2A40;
   
   --primary: #00F0FF;     /* Neon Cyan */
-  --secondary: #FF2A6D;   /* Neon Pink / Magenta */
+  --secondary: #FF2A6D;   /* Neon Pink */
   --accent: #B92BFF;      /* Neon Purple */
-  --success: #39FF14;     /* Neon Green */
-  --warn: #FFE600;        /* Neon Yellow */
-  --danger: #FF2A6D;      /* Laser Red */
+  --success: #39FF14;     /* Terminal Green */
+  --warn: #FFE600;        /* Warning Yellow */
+  --danger: #FF2A6D;
   
   --text: #E6F1FF;
   --text-dim: #94A3B8;
@@ -34,6 +33,7 @@
 
   --card-radius: 0px;
   --scanline-opacity: 0.35;
+  --wallpaper-overlay: radial-gradient(circle at 80% 10%, rgba(0, 240, 255, 0.05), transparent 60%);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,6 +41,9 @@
 html, body {
   height: 100%;
   background-color: var(--bg);
+  background-image: var(--wallpaper-overlay);
+  background-size: cover;
+  background-position: center;
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 13.5px;
@@ -69,7 +72,7 @@ h1, h2, h3, h4 {
 
 .pixel-label {
   font-family: var(--font-pixel);
-  font-size: 8.5px;
+  font-size: 8px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -80,15 +83,9 @@ h1, h2, h3, h4 {
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: var(--card-radius); }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-/* RESPONSIVE APP SHELL */
-.app {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
+/* LAYOUT */
+.app { display: flex; height: 100vh; overflow: hidden; position: relative; }
 
-/* MOBILE TOPBAR BAR (Hidden on Desktops) */
 .mobile-header {
   display: none;
   background: var(--surface);
@@ -109,12 +106,10 @@ h1, h2, h3, h4 {
   padding: 6px 10px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: var(--card-radius);
 }
 
-/* SIDEBAR: Collapsible Drawer on Mobile, Fixed on Desktop */
 .sidebar {
-  width: 230px;
+  width: 240px;
   flex-shrink: 0;
   background: var(--surface);
   border-right: 1px solid var(--line);
@@ -138,8 +133,8 @@ h1, h2, h3, h4 {
 }
 
 .brand .mark {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   border: 1px solid var(--primary);
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
@@ -147,14 +142,14 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 900;
   color: #05070A;
   flex-shrink: 0;
 }
 
 .brand h1 { font-size: 15px; color: #fff; text-shadow: 0 0 8px var(--primary); }
-.brand p { font-family: var(--font-pixel); font-size: 7.5px; color: var(--primary); }
+.brand p { font-family: var(--font-pixel); font-size: 7px; color: var(--primary); }
 
 .navgroup { padding: 0 10px; margin-bottom: 10px; }
 .navgroup .glabel {
@@ -170,7 +165,7 @@ h1, h2, h3, h4 {
   align-items: center;
   gap: 10px;
   width: calc(100% - 16px);
-  padding: 8px 8px;
+  padding: 8px;
   font-size: 12.5px;
   font-weight: 500;
   color: var(--text-dim);
@@ -192,7 +187,6 @@ h1, h2, h3, h4 {
   background: linear-gradient(90deg, rgba(0, 240, 255, 0.12), transparent);
   color: var(--text);
   border-left: 3px solid var(--primary);
-  box-shadow: inset 0 0 8px rgba(0, 240, 255, 0.08);
   padding-left: 12px;
 }
 
@@ -202,7 +196,6 @@ main {
   min-width: 0;
   overflow-y: auto;
   padding: 24px 28px 60px 28px;
-  background: radial-gradient(circle at 80% 10%, rgba(0, 240, 255, 0.04), transparent 50%), var(--bg);
 }
 
 .topbar {
@@ -230,19 +223,13 @@ main {
   align-items: center;
   gap: 5px;
 }
-
 .badge-pts b { color: var(--warn); font-family: var(--font-display); font-size: 12.5px; }
 
 /* PANELS */
-.panel {
-  display: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
-}
+.panel { display: none; opacity: 0; transform: translateY(10px); transition: all 0.25s ease-out; }
 .panel.active { display: block; opacity: 1; transform: translateY(0); }
 
-/* CARDS */
+/* CARDS WITH CORNER BRACKETS */
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -253,30 +240,17 @@ main {
 }
 
 .card::before {
-  content: "";
-  position: absolute;
-  top: -1px; left: -1px;
-  width: 6px; height: 6px;
-  border-top: 2px solid var(--primary);
-  border-left: 2px solid var(--primary);
+  content: ""; position: absolute; top: -1px; left: -1px; width: 6px; height: 6px;
+  border-top: 2px solid var(--primary); border-left: 2px solid var(--primary);
 }
-
 .card::after {
-  content: "";
-  position: absolute;
-  bottom: -1px; right: -1px;
-  width: 6px; height: 6px;
-  border-bottom: 2px solid var(--primary);
-  border-right: 2px solid var(--primary);
+  content: ""; position: absolute; bottom: -1px; right: -1px; width: 6px; height: 6px;
+  border-bottom: 2px solid var(--primary); border-right: 2px solid var(--primary);
 }
 
 .card h3 {
-  font-size: 12.5px;
-  color: var(--primary);
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  font-size: 12.5px; color: var(--primary); margin-bottom: 10px;
+  display: flex; justify-content: space-between; align-items: center;
 }
 
 .grid { display: grid; gap: 14px; }
@@ -284,45 +258,29 @@ main {
 .cols-3 { grid-template-columns: repeat(3, 1fr); }
 .cols-4 { grid-template-columns: repeat(4, 1fr); }
 
-/* STATS */
 .stat .value { font-family: var(--font-display); font-size: 24px; font-weight: 900; }
 .stat .label { font-family: var(--font-pixel); font-size: 8px; color: var(--text-dim); margin-top: 4px; }
-.stat.good .value { color: var(--success); text-shadow: 0 0 10px rgba(57, 255, 20, 0.4); }
-.stat.warn .value { color: var(--secondary); text-shadow: 0 0 10px rgba(255, 42, 109, 0.4); }
-.stat.accent .value { color: var(--primary); text-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
+.stat.good .value { color: var(--success); }
+.stat.warn .value { color: var(--secondary); }
+.stat.accent .value { color: var(--primary); }
 
 .divider { border: none; border-top: 1px solid var(--line); margin: 16px 0; }
 
 /* BUTTONS */
 .btn {
-  font-family: var(--font-pixel);
-  font-size: 8.5px;
-  padding: 8px 12px;
-  border: 2px solid transparent;
-  border-radius: var(--card-radius);
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.15s ease-out;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--surface2);
-  color: var(--text);
+  font-family: var(--font-pixel); font-size: 8.5px; padding: 8px 12px;
+  border: 2px solid transparent; border-radius: var(--card-radius); cursor: pointer;
+  text-transform: uppercase; transition: all 0.15s ease-out; display: inline-flex;
+  align-items: center; gap: 6px; background: var(--surface2); color: var(--text);
   white-space: nowrap;
 }
 .btn:active { transform: scale(0.97); }
 
 .btn-primary, .btn:not(.ghost):not(.accent):not(.danger) {
   background: linear-gradient(135deg, var(--primary) 0%, #2D7FF9 100%);
-  color: #05070A;
-  border-color: var(--primary);
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
+  color: #05070A; border-color: var(--primary);
 }
-
-.btn-primary:hover, .btn:not(.ghost):not(.accent):not(.danger):hover {
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.6);
-  transform: scale(1.02);
-}
+.btn-primary:hover { box-shadow: 0 0 14px var(--primary); }
 
 .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--text-dim); }
 .btn.ghost:hover { background: var(--surface2); border-color: var(--primary); color: var(--text); }
@@ -331,18 +289,12 @@ main {
 .btn.accent:hover { background: rgba(185, 43, 255, 0.15); }
 
 .btn.danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-.btn.danger:hover { background: rgba(255, 42, 109, 0.15); }
-
 .btn.small { padding: 5px 8px; font-size: 7.5px; }
 
 /* PILLS */
 .pill {
-  display: inline-block;
-  font-family: var(--font-pixel);
-  font-size: 7.5px;
-  padding: 3px 6px;
-  border-radius: var(--card-radius);
-  text-transform: uppercase;
+  display: inline-block; font-family: var(--font-pixel); font-size: 7.5px;
+  padding: 3px 6px; border-radius: var(--card-radius); text-transform: uppercase;
   border: 1px solid transparent;
 }
 .pill.free { border-color: var(--text-dim); color: var(--text-dim); }
@@ -354,65 +306,40 @@ main {
 
 /* INPUTS */
 input[type=text], input[type=number], input[type=date], input[type=password], select, textarea {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--card-radius);
-  background: #030508;
-  color: var(--text);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  outline: none;
+  width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--card-radius);
+  background: #030508; color: var(--text); font-family: var(--font-mono); font-size: 13px; outline: none;
 }
-input:focus, select:focus, textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
-}
+input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 8px var(--primary); }
 
-label.small {
-  font-family: var(--font-pixel);
-  font-size: 7.5px;
-  color: var(--text-dim);
-  display: block;
-  margin-bottom: 4px;
-}
+.progress { height: 12px; border-radius: var(--card-radius); background: #020305; overflow: hidden; border: 1px solid var(--line); }
+.progress .fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--secondary)); transition: width 0.4s ease-out; }
 
-.progress {
-  height: 12px;
-  border-radius: var(--card-radius);
-  background: #020305;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-.progress .fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--secondary));
-  transition: width 0.4s ease-out;
-}
-
-.kv {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12.5px;
-  padding: 6px 0;
-  border-bottom: 1px dotted var(--line);
-}
+.kv { display: flex; justify-content: space-between; font-size: 12.5px; padding: 6px 0; border-bottom: 1px dotted var(--line); }
 .kv:last-child { border-bottom: none; }
 .kv .k { color: var(--text-dim); }
 .kv .v { font-weight: 700; color: #fff; }
 
-.task-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 6px;
-  border-bottom: 1px dashed var(--line);
-}
+.task-row { display: flex; align-items: center; gap: 10px; padding: 9px 6px; border-bottom: 1px dashed var(--line); }
 .task-row input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--success); cursor: pointer; }
 .task-row .tt { flex: 1; min-width: 0; }
 .task-row .tt .title { font-weight: 600; font-size: 13.5px; }
 .task-row .tt .title.done { text-decoration: line-through; color: var(--text-dim); }
 .task-row .meta { display: flex; gap: 8px; font-size: 10.5px; color: var(--text-dim); margin-top: 2px; }
+
+/* DESIGN PACK CARDS */
+.design-pack-card {
+  background: var(--surface2);
+  border: 1px solid var(--line);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.design-pack-card.active-pack { border-color: var(--primary); box-shadow: inset 0 0 10px var(--primary); }
+.design-preview-strip { height: 24px; display: flex; border: 1px solid var(--line); }
+.design-preview-strip span { flex: 1; height: 100%; }
 
 /* CHAT */
 .chat-wrap { display: flex; gap: 12px; height: 480px; }
@@ -434,61 +361,67 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
 
 /* MODALS */
 .modal-backdrop {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(5, 7, 10, 0.94);
-  backdrop-filter: blur(5px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  padding: 16px;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(5, 7, 10, 0.94); backdrop-filter: blur(5px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10000; padding: 16px;
 }
 .modal-card {
-  width: 440px;
-  max-width: 100%;
+  width: 440px; max-width: 100%; background: var(--surface);
+  border: 2px solid var(--primary); box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+  padding: 22px; position: relative;
+}
+
+/* RETRO ARCADE TASK COMPLETE POPUP BANNER */
+#arcadePopup {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.6);
   background: var(--surface);
-  border: 2px solid var(--primary);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
-  padding: 22px;
-  position: relative;
+  border: 3px solid var(--success);
+  box-shadow: 0 0 35px var(--success), inset 0 0 20px rgba(57, 255, 20, 0.2);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#arcadePopup.pop-show {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+.arcade-icon {
+  font-size: 30px;
+  animation: bounce 0.6s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
 }
 
 /* TOAST */
 .toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--surface2);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--primary);
-  color: var(--text);
-  padding: 10px 16px;
-  border-radius: var(--card-radius);
-  font-family: var(--font-pixel);
-  font-size: 8.5px;
-  box-shadow: 0 0 20px rgba(0,0,0,.8);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all .25s ease-out;
-  pointer-events: none;
-  z-index: 100000;
-  max-width: 300px;
+  position: fixed; bottom: 20px; right: 20px; background: var(--surface2);
+  border: 1px solid var(--line); border-left: 4px solid var(--primary);
+  color: var(--text); padding: 10px 16px; font-family: var(--font-pixel);
+  font-size: 8.5px; box-shadow: 0 0 20px rgba(0,0,0,.8); opacity: 0;
+  transform: translateY(10px); transition: all .25s ease-out; pointer-events: none;
+  z-index: 100000; max-width: 300px;
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 
-/* BACKDROP FOR MOBILE DRAWER */
 .sidebar-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  z-index: 90;
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6); z-index: 90;
 }
 
-/* ============================================================
-   RESPONSIVE MEDIA QUERIES (Mobile, Tablet, iPad, Laptops)
-============================================================ */
 @media (max-width: 900px) {
   .cols-4 { grid-template-columns: 1fr 1fr; }
   .cols-3 { grid-template-columns: 1fr; }
@@ -498,24 +431,10 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
 @media (max-width: 768px) {
   .app { flex-direction: column; }
   .mobile-header { display: flex; }
-  
-  .sidebar {
-    position: fixed;
-    top: 0; left: 0;
-    height: 100vh;
-    transform: translateX(-100%);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
-  }
-  .sidebar.open {
-    transform: translateX(0);
-  }
-  .sidebar-overlay.open {
-    display: block;
-  }
-  main {
-    padding: 16px 14px 40px 14px;
-    height: calc(100vh - 54px);
-  }
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+  main { padding: 16px 14px 40px 14px; height: calc(100vh - 54px); }
   .chat-wrap { flex-direction: column; height: 520px; }
   .chat-list { width: 100%; height: 140px; border-right: none; border-bottom: 1px solid var(--line); }
   .topbar { flex-direction: column; align-items: flex-start; }
@@ -526,10 +445,20 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
 </head>
 <body>
 
-<!-- MOBILE SLIDE-OVER OVERLAY -->
+<!-- RETRO ARCADE TASK COMPLETE CELEBRATION MODAL -->
+<div id="arcadePopup">
+  <div class="arcade-icon" id="popIcon">🎯</div>
+  <div>
+    <div class="pixel-label" style="font-size:11px; color:var(--success);" id="popTitle">TASK EXECUTED!</div>
+    <div style="font-family:var(--font-mono); font-size:12px; color:#fff;" id="popSubtitle">+5 XP ADDED TO BATTLEPASS</div>
+  </div>
+</div>
+
+<!-- HIDDEN FILE INPUT FOR IMPORTING .LOCKIN PACKS -->
+<input type="file" id="lockinFileUploader" accept=".lockin,application/json" style="display:none;" onchange="handleFileImport(event)">
+
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar(false)"></div>
 
-<!-- MOBILE HEADER BAR -->
 <div class="mobile-header">
   <div style="display:flex; align-items:center; gap:8px;">
     <button class="hamburger-btn" onclick="toggleSidebar(true)">☰</button>
@@ -538,16 +467,14 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
   <div style="font-family:var(--font-pixel); font-size:8px; color:var(--warn);" id="mobHeaderLvl">LVL 1</div>
 </div>
 
-<!-- RUNNER ID GATEWAY MODAL (Procedural ID Generator) -->
+<!-- RUNNER ID GATEWAY MODAL -->
 <div id="authModal" class="modal-backdrop" style="display: none;">
   <div class="modal-card">
     <h2 style="color: var(--primary); font-size: 16px; margin-bottom: 4px;">NEURAL ID GATEWAY</h2>
     <p class="pixel-label" style="color: var(--secondary); margin-bottom: 12px;">CRYPTOGRAPHIC CREDENTIAL GENERATOR</p>
-    
     <p style="font-size: 11.5px; color: var(--text-dim); margin-bottom: 12px;">
-      Zero registration friction. Your device generates an authenticated, collision-proof Runner Identity stored entirely in local terminal memory:
+      Zero registration friction. Generated credentials are saved to local hardware memory:
     </p>
-
     <div style="background: #030508; border: 1px dashed var(--primary); padding: 10px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
       <div>
         <div class="pixel-label" style="font-size: 7px; color: var(--text-dim);">ASSIGNED NET-ID</div>
@@ -555,30 +482,25 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
       </div>
       <button class="btn ghost small" onclick="generateNewIdentity()">REROLL</button>
     </div>
-
     <div>
       <label class="pixel-label">CODENAME / ALIAS</label>
       <input id="agentAliasInput" placeholder="Leave blank to use Net-ID" style="margin-top: 4px; margin-bottom: 12px;">
     </div>
-
     <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 10px;" onclick="claimGeneratedIdentity()">
       INITIALIZE NEURAL LINK
     </button>
   </div>
 </div>
 
-<!-- ROOT ADMIN ACCESS AUTHORIZATION MODAL -->
+<!-- ROOT ADMIN MODAL -->
 <div id="adminAuthModal" class="modal-backdrop" style="display: none;">
   <div class="modal-card">
     <h2 style="color: var(--secondary); font-size: 15px; margin-bottom: 4px;">ROOT // ADMIN GATEWAY</h2>
     <p class="pixel-label" style="color: var(--text-dim); margin-bottom: 12px;">HIGH-CLEARANCE MASTER KEY REQUIRED</p>
-    
     <p style="font-size: 11.5px; color: var(--text-dim); margin-bottom: 12px;">
-      The Admin Panel is private to the project owner. Enter your Root Security Key to unlock master telemetry and fraud review.
+      Enter your Root Security Key to unlock master telemetry and fraud review.
     </p>
-
     <input type="password" id="adminSecretInput" placeholder="Enter root cipher..." style="margin-bottom: 12px;">
-    
     <div style="display:flex; gap:8px;">
       <button class="btn btn-primary" style="flex:1; justify-content:center;" onclick="verifyAdminAccess()">UNLOCK ROOT</button>
       <button class="btn ghost" onclick="closeAdminAuth()">CANCEL</button>
@@ -586,38 +508,29 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
   </div>
 </div>
 
-<!-- PAYMENT GATEWAY MODAL (FPX & Card Subscription Checkout) -->
+<!-- PAYMENT GATEWAY MODAL -->
 <div id="paymentModal" class="modal-backdrop" style="display: none;">
   <div class="modal-card">
-    <h2 style="color: var(--primary); font-size: 16px; margin-bottom: 4px;">PAYMENT GATEWAY // CHECKOUT</h2>
+    <h2 style="color: var(--primary); font-size: 16px; margin-bottom: 4px;">CHECKOUT // UPGRADE LICENSE</h2>
     <p class="pixel-label" style="color: var(--warn); margin-bottom: 12px;" id="payModalPlanTitle">UPGRADING SUBSCRIPTION</p>
-    
     <div class="kv"><span class="k">Plan Tier</span><span class="v" id="payModalTierName">VIP PASS</span></div>
     <div class="kv"><span class="k">Amount Payable</span><span class="v" style="color:var(--success); font-family:var(--font-display);" id="payModalPrice">RM 12.90</span></div>
-    <div class="kv"><span class="k">Payout Settlement</span><span class="v" style="font-size:11px; color:var(--text-dim);">Direct to Merchant Bank (FPX)</span></div>
-
+    <div class="kv"><span class="k">Payout Settlement</span><span class="v" style="font-size:11px; color:var(--text-dim);">ToyyibPay / FPX Direct Bank Settlement</span></div>
     <div class="divider"></div>
-
     <label class="pixel-label">SELECT PAYMENT METHOD</label>
     <select id="payMethodSelect" style="margin: 6px 0 14px 0;">
-      <option value="fpx">Online Banking (FPX) — Maybank, CIMB, Bank Islam, etc.</option>
+      <option value="fpx">Online Banking (FPX) — Maybank2u, CIMB Clicks, etc.</option>
       <option value="duitnow">DuitNow QR / Touch 'n Go eWallet</option>
-      <option value="card">Credit / Debit Card (Visa/Mastercard)</option>
+      <option value="card">Credit / Debit Card</option>
     </select>
-
-    <div style="background:#030508; border:1px dashed var(--line); padding:10px; margin-bottom:14px; font-size:11px; color:var(--text-dim);">
-      💡 <b>Merchant Note:</b> Production deployments connect directly to ToyyibPay / Stripe API to settle payments straight into your bank account.
-    </div>
-
     <div style="display:flex; gap:8px;">
-      <button class="btn btn-primary" style="flex:1; justify-content:center;" id="executePaymentBtn" onclick="confirmSubscriptionPayment()">AUTHORIZE PAYMENT</button>
+      <button class="btn btn-primary" style="flex:1; justify-content:center;" onclick="confirmSubscriptionPayment()">AUTHORIZE PAYMENT</button>
       <button class="btn ghost" onclick="document.getElementById('paymentModal').style.display='none'">CANCEL</button>
     </div>
   </div>
 </div>
 
 <div class="app">
-  <!-- SIDEBAR NAVIGATION -->
   <aside class="sidebar" id="appSidebar">
     <div class="brand" onclick="brandTripleClickTrigger()">
       <div class="mark">L</div>
@@ -632,7 +545,7 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
       <button class="nav-btn active" data-tab="home"><span class="ico">&#8962;</span>Home</button>
       <button class="nav-btn" data-tab="lists"><span class="ico">&#9745;</span>Task Lists</button>
       <button class="nav-btn" data-tab="battlepass"><span class="ico">&#9873;</span>Battlepass</button>
-      <button class="nav-btn" data-tab="themes"><span class="ico">&#127912;</span>Themes</button>
+      <button class="nav-btn" data-tab="themes"><span class="ico">&#127912;</span>Themes & Packs</button>
     </div>
 
     <div class="navgroup">
@@ -644,7 +557,7 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
 
     <div class="navgroup">
       <div class="glabel">Creator Deck</div>
-      <button class="nav-btn" data-tab="templates"><span class="ico">&#128196;</span>Templates</button>
+      <button class="nav-btn" data-tab="templates"><span class="ico">&#128196;</span>Templates (.lockin)</button>
       <button class="nav-btn" data-tab="marketplace"><span class="ico">&#128722;</span>Marketplace</button>
     </div>
 
@@ -654,7 +567,6 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
       <button class="nav-btn" data-tab="plans"><span class="ico">&#128176;</span>Plans</button>
     </div>
 
-    <!-- ROOT ADMIN LINK (Hidden from public by default) -->
     <div class="navgroup" id="adminNavGroup" style="display: none;">
       <div class="glabel" style="color:var(--secondary);">Master Deck</div>
       <button class="nav-btn" data-tab="admin" style="color:var(--secondary);"><span class="ico">&#128737;</span>Admin Panel</button>
@@ -662,13 +574,9 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
 
     <div style="margin-top: auto; padding: 12px;">
       <button class="btn ghost small" id="resetBtn" style="width:100%; justify-content:center;">Reset Demo State</button>
-      <div style="text-align:center; font-size:7.5px; color:var(--text-dim); margin-top:8px; font-family:var(--font-pixel);">
-        LOCKIN OS v3.2
-      </div>
     </div>
   </aside>
 
-  <!-- MAIN VIEWPORT -->
   <main>
     <div class="topbar">
       <div>
@@ -733,31 +641,48 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
       </div>
     </section>
 
-    <!-- THEMES -->
+    <!-- THEMES & DESIGN PACKS -->
     <section class="panel" id="themes">
       <div class="grid cols-2">
         <div class="card">
-          <h3>Design Presets</h3>
-          <div class="grid cols-2" id="themePresets"></div>
+          <h3>Thematic Worlds (VIP + Lock In Points Required)</h3>
+          <p style="font-size:11px; color:var(--text-dim); margin-bottom:12px;">
+            Equip fully overhaul design packs: custom palettes, background visualizers, and celebratory arcade popups.
+          </p>
+          <div class="grid cols-2" id="designPacksGrid"></div>
+
           <div class="divider"></div>
-          <h3>Custom Color Palettes</h3>
+          <h3>Custom Manual Palette</h3>
           <div id="colorPickers"></div>
           <div style="margin-top:10px; display:flex; gap:8px;">
-            <button class="btn btn-primary small" id="saveThemeBtn" style="flex:1; justify-content:center;">Save to Storage</button>
+            <button class="btn btn-primary small" id="saveThemeBtn" style="flex:1; justify-content:center;">Save Custom</button>
             <button class="btn ghost small" id="resetThemeBtn">Reset</button>
           </div>
         </div>
+
         <div class="card">
-          <h3>Live CRT Preview</h3>
-          <div id="themePreview" style="background:var(--surface); border:1px solid var(--line); padding:14px; position:relative;">
-            <div style="font-family:var(--font-display); font-weight:800; font-size:16px; color:var(--primary);">LOCK IN</div>
-            <p style="color:var(--text-dim); font-size:11px; margin:4px 0 8px 0;">This is how your tactical HUD interfaces appear.</p>
+          <h3>Import External .lockin Pack</h3>
+          <p style="font-size:11px; color:var(--text-dim); margin-bottom:10px;">
+            Load any creator design file strictly adhering to the <b>.lockin</b> standardized pack structure.
+          </p>
+          <button class="btn accent small" onclick="document.getElementById('lockinFileUploader').click()">
+            Upload .lockin File
+          </button>
+
+          <div class="divider"></div>
+          <h3>Active Design Preview</h3>
+          <div id="themePreview" style="background:var(--surface); border:2px solid var(--primary); padding:14px; position:relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="font-family:var(--font-display); font-weight:800; font-size:16px; color:var(--primary);" id="previewBrandText">LOCK IN</div>
+              <span id="previewEmote" style="font-size:20px;">🎯</span>
+            </div>
+            <p style="color:var(--text-dim); font-size:11px; margin:4px 0 8px 0;" id="previewPackDesc">Blade Runner 2099 Cyberpunk</p>
             <div class="progress" style="margin-bottom:8px;"><div class="fill" style="width:65%;"></div></div>
             <span class="pill vip">VIP ACCESS</span> <span class="pill good">ONLINE</span>
           </div>
-          <div id="contrastCheck" style="margin-top:10px;"></div>
+
           <div class="divider"></div>
-          <h3>Saved Themes</h3>
+          <h3>Saved Theme Profiles</h3>
           <div id="savedThemesList"></div>
         </div>
       </div>
@@ -811,11 +736,11 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
       </div>
     </section>
 
-    <!-- TEMPLATES -->
+    <!-- TEMPLATES & .LOCKIN EXPORTER -->
     <section class="panel" id="templates">
       <div id="editorPublishBox"></div>
       <div class="divider"></div>
-      <h3 style="margin-bottom:10px;">Verified Templates</h3>
+      <h3 style="margin-bottom:10px;">Design Packs & Blueprints</h3>
       <div class="grid cols-3" id="templatesGrid"></div>
     </section>
 
@@ -847,19 +772,19 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
           <div class="divider"></div>
           <h3>Local Data Controls</h3>
           <div style="display:flex; gap:8px;">
-            <button class="btn ghost small" id="exportDataBtn">Export JSON</button>
+            <button class="btn ghost small" id="exportDataBtn">Export State (JSON)</button>
             <button class="btn danger small" id="deleteAccountBtn">Purge Memory</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PLANS & PAYMENTS -->
+    <!-- PLANS -->
     <section class="panel" id="plans">
       <div class="grid cols-3" id="plansGrid"></div>
     </section>
 
-    <!-- MASTER ADMIN PANEL -->
+    <!-- ADMIN -->
     <section class="panel" id="admin">
       <div class="grid cols-4" id="adminKpis"></div>
       <div class="divider"></div>
@@ -899,9 +824,7 @@ td { padding: 8px 5px; border-bottom: 1px solid var(--line); }
 
 <script>
 /* ============================================================
-   1. MASTER ADMIN & SECURITY KEY
-   The default root secret is: LOCKIN-ROOT-99
-   Press Ctrl+Shift+A or triple-click the top-left Logo to unlock.
+   1. SECURITY & ADMIN MASTER PIN
 ============================================================ */
 const MASTER_ADMIN_SECRET = "LOCKIN-ROOT-99";
 let isAdminAuthorized = localStorage.getItem('lockin_admin_auth') === 'true';
@@ -927,7 +850,7 @@ window.addEventListener('keydown', (e) => {
 
 function openAdminAuth() {
   if (isAdminAuthorized) {
-    toast("Master Clearance already unlocked.");
+    toast("Master Clearance already active.");
     revealAdminTab();
     return;
   }
@@ -947,7 +870,7 @@ function verifyAdminAccess() {
     localStorage.setItem('lockin_admin_auth', 'true');
     closeAdminAuth();
     revealAdminTab();
-    toast("Root clearance unlocked. Welcome, Admin.");
+    toast("Master Clearance Granted. Welcome, Admin.");
   } else {
     toast("ACCESS DENIED: Invalid Root Cipher", true);
   }
@@ -958,10 +881,10 @@ function revealAdminTab() {
 }
 
 /* ============================================================
-   2. PROCEDURAL RUNNER ID ENGINE
+   2. UNIQUE PROCEDURAL RUNNER ID ENGINE
 ============================================================ */
-const PREFIXES = ["NEXUS", "BLADE", "CYBER", "GHOST", "NEO", "SYNTH", "VECTOR", "KINETIC", "ZERO"];
-const SECTORS = ["7", "X", "9", "V", "A", "DELTA", "OMEGA", "CORE"];
+const PREFIXES = ["NEXUS", "BLADE", "CYBER", "GHOST", "NEO", "SYNTH", "SHINOBI", "WARLORD", "VIGIL"];
+const SECTORS = ["7", "X", "9", "V", "A", "DELTA", "ZED", "ALPHA"];
 
 function generateCryptographicUniqueId() {
   const prefix = PREFIXES[Math.floor(Math.random() * PREFIXES.length)];
@@ -978,9 +901,6 @@ function generateNewIdentity() {
   document.getElementById('genUniqueId').innerText = stagedUniqueId;
 }
 
-/* ============================================================
-   3. RESPONSIVE MOBILE DRAWER LOGIC
-============================================================ */
 function toggleSidebar(open) {
   const sidebar = document.getElementById('appSidebar');
   const overlay = document.getElementById('sidebarOverlay');
@@ -994,29 +914,84 @@ function toggleSidebar(open) {
 }
 
 /* ============================================================
-   4. DATA STATE & PRESETS
+   3. THEME PACKS & .LOCKIN SPECIFICATION
+   Standard file type: .lockin (JSON formatted)
 ============================================================ */
-const STORE_KEY = 'lockin_matrix_v3_master';
-const todayStr = () => new Date().toISOString().slice(0, 10);
-
-const DEFAULT_PRESETS = {
+const BUILTIN_THEME_PACKS = {
   blade_runner: {
-    bg: '#05070A', surface: '#0B0F19', surface2: '#111827',
-    primary: '#00F0FF', secondary: '#FF2A6D', accent: '#B92BFF', text: '#E6F1FF'
+    id: 'blade_runner',
+    name: 'Blade Runner 2099',
+    category: 'Cyberpunk',
+    requiresVip: false,
+    costLip: 0,
+    desc: 'Rain-slicked neon metropolis with cyan and magenta accents.',
+    emotes: { complete: '⚡', avatar: '🎯', alertText: 'TASK EXECUTED!' },
+    palette: {
+      bg: '#05070A', surface: '#0B0F19', surface2: '#111827',
+      primary: '#00F0FF', secondary: '#FF2A6D', accent: '#B92BFF', text: '#E6F1FF'
+    },
+    wallpaper: 'radial-gradient(circle at 80% 10%, rgba(0, 240, 255, 0.08), transparent 60%)'
   },
-  neon_rain: {
-    bg: '#020d18', surface: '#071828', surface2: '#0c2339',
-    primary: '#2D7FF9', secondary: '#FF0055', accent: '#00FFAA', text: '#E6F1FF'
+  superhero: {
+    id: 'superhero',
+    name: 'Vigilante Neon',
+    category: 'Superhero',
+    requiresVip: true,
+    costLip: 30,
+    desc: 'Comic-book high contrast yellow & electric crimson HUD.',
+    emotes: { complete: '💥', avatar: '🦸‍♂️', alertText: 'JUSTICE DELIVERED!' },
+    palette: {
+      bg: '#08050e', surface: '#120c1f', surface2: '#1c132f',
+      primary: '#FFE600', secondary: '#FF0055', accent: '#39FF14', text: '#FFFFFF'
+    },
+    wallpaper: 'radial-gradient(circle at 50% 20%, rgba(255, 230, 0, 0.08), transparent 70%)'
   },
-  terminal_hacker: {
-    bg: '#010801', surface: '#031203', surface2: '#061d06',
-    primary: '#39FF14', secondary: '#00CC44', accent: '#39FF14', text: '#D0FFD0'
+  ninja: {
+    id: 'ninja',
+    name: 'Shinobi Shadow',
+    category: 'Ninja',
+    requiresVip: true,
+    costLip: 40,
+    desc: 'Obsidian blacks, blood crimson cuts, and stealth shuriken highlights.',
+    emotes: { complete: '🗡️', avatar: '🥷', alertText: 'KATANA STRIKE COMPLETE!' },
+    palette: {
+      bg: '#050505', surface: '#0d0d0d', surface2: '#171717',
+      primary: '#FF1E27', secondary: '#8A0303', accent: '#C0C0C0', text: '#F0F0F0'
+    },
+    wallpaper: 'linear-gradient(180deg, rgba(255, 30, 39, 0.05) 0%, transparent 100%)'
   },
-  arcade_cabinet: {
-    bg: '#0d0414', surface: '#1a0928', surface2: '#270e3c',
-    primary: '#FFE600', secondary: '#FF2A6D', accent: '#39FF14', text: '#FFF0F5'
+  zomboid: {
+    id: 'zomboid',
+    name: 'Toxic Undead',
+    category: 'Zomboid',
+    requiresVip: true,
+    costLip: 50,
+    desc: 'Apocalyptic quarantine bioluminescent acid-green & rusted amber.',
+    emotes: { complete: '☣️', avatar: '🧟', alertText: 'INFESTATION QUARANTINED!' },
+    palette: {
+      bg: '#050804', surface: '#0b120a', surface2: '#131e11',
+      primary: '#39FF14', secondary: '#FF8800', accent: '#7CFF01', text: '#E8FFE5'
+    },
+    wallpaper: 'radial-gradient(circle at 20% 80%, rgba(57, 255, 20, 0.07), transparent 60%)'
+  },
+  world_war: {
+    id: 'world_war',
+    name: 'Trench Warfare 1944',
+    category: 'World War',
+    requiresVip: true,
+    costLip: 60,
+    desc: 'Military steel-grey, olive drab radar, and artillery flash amber.',
+    emotes: { complete: '🎖️', avatar: '🪖', alertText: 'OBJECTIVE SECURED!' },
+    palette: {
+      bg: '#0A0B09', surface: '#141712', surface2: '#1F241C',
+      primary: '#E5A93C', secondary: '#738C5A', accent: '#C2B280', text: '#EDEDE8'
+    },
+    wallpaper: 'radial-gradient(circle at 50% 50%, rgba(229, 169, 60, 0.06), transparent 70%)'
   }
 };
+
+const STORE_KEY = 'lockin_matrix_v4_themes';
+const todayStr = () => new Date().toISOString().slice(0, 10);
 
 function seedState(userProfile = null) {
   const now = Date.now();
@@ -1026,81 +1001,59 @@ function seedState(userProfile = null) {
   return {
     profile: {
       id: id, name: name, slug: id.toLowerCase(),
-      birth: '2001-04-12', about: 'Neural runner navigating tactical sprints.',
+      birth: '2001-04-12', about: 'Operating across multiple tactical worlds.',
       avatar: '🎯', plan: 'free', twoFA: false, weeklyOptIn: true
     },
-    theme: { ...DEFAULT_PRESETS.blade_runner },
+    activeThemePackId: 'blade_runner',
+    unlockedThemePackIds: ['blade_runner'],
+    theme: { ...BUILTIN_THEME_PACKS.blade_runner.palette },
     savedThemes: [],
     bp: { seasonName: 'Season 1 · 2026', totalTaskPoints: 0, grantedMilestones: [], pointsToday: 0, lastActiveDate: todayStr() },
     bpConfig: [
-      { lvl: 1, free: '+10 Lock In Points', vip: '+15 Lock In Points + starter theme' },
+      { lvl: 1, free: '+10 Lock In Points', vip: '+15 Lock In Points + Starter Pack' },
       { lvl: 2, free: '+10 Lock In Points', vip: '+15 Lock In Points' },
-      { lvl: 3, free: '+10 Lock In Points', vip: 'Exclusive "Neon Rain" theme unlock' },
+      { lvl: 3, free: '+10 Lock In Points', vip: 'Shinobi Ninja Pack discount' },
       { lvl: 4, free: '+10 Lock In Points', vip: '+15 Lock In Points' },
       { lvl: 5, free: 'Profile badge: Bronze', vip: 'Profile badge: VIP Bronze' },
       { lvl: 6, free: '+10 Lock In Points', vip: '+15 Lock In Points' },
       { lvl: 7, free: '+10 Lock In Points', vip: '+15 Lock In Points' },
-      { lvl: 8, free: '+10 Lock In Points', vip: 'Early access: new template drop' },
+      { lvl: 8, free: '+10 Lock In Points', vip: 'Early access: Zombie Pack' },
       { lvl: 9, free: '+10 Lock In Points', vip: '+15 Lock In Points' },
-      { lvl: 10, free: '3-day VIP trial', vip: '3-day VIP trial + exclusive frame' },
+      { lvl: 10, free: '3-day VIP trial', vip: '3-day VIP trial + Superhero Emote' },
     ],
     lists: [
-      { id: 'l1', title: 'Study Week', tasks: [
-        { id: 't1', title: 'Finish reading Chapter 4', priority: 'high', due: todayStr(), status: 'pending', createdAt: now - 1000 * 60 * 60 * 5, tags: ['uni'] },
-        { id: 't2', title: 'Problem set 3 solutions', priority: 'medium', due: '', status: 'pending', createdAt: now - 1000 * 60 * 60 * 20, tags: ['uni'] },
-        { id: 't3', title: 'Review lecture recordings', priority: 'low', due: '', status: 'done', createdAt: now - 1000 * 60 * 60 * 40, completedAt: now - 1000 * 60 * 60 * 39, tags: [] },
-      ]},
-      { id: 'l2', title: 'Gym Plan', tasks: [
-        { id: 't4', title: 'Leg day: Squat 4x8', priority: 'medium', due: '', status: 'pending', createdAt: now - 1000 * 60 * 30, tags: ['fitness'] },
-        { id: 't5', title: '15 min mobility stretching', priority: 'low', due: '', status: 'pending', createdAt: now - 1000 * 60 * 10, tags: ['fitness'] },
-      ]},
+      { id: 'l1', title: 'Tactical Objectives', tasks: [
+        { id: 't1', title: 'Complete briefing documentation', priority: 'high', due: todayStr(), status: 'pending', createdAt: now - 1000 * 60 * 60 * 5, tags: ['work'] },
+        { id: 't2', title: 'Calibrate neural sensory rig', priority: 'medium', due: '', status: 'pending', createdAt: now - 1000 * 60 * 60 * 20, tags: ['hardware'] },
+        { id: 't3', title: 'Execute morning perimeter run', priority: 'low', due: '', status: 'done', createdAt: now - 1000 * 60 * 60 * 40, completedAt: now - 1000 * 60 * 60 * 39, tags: [] },
+      ]}
     ],
     templates: [
-      { id: 'tpl1', name: 'Study Sprint Week', category: 'Study', price: 0, desc: 'A 7-day sprint checklist with review milestones.', ownerIsMe: false, items: ['Read assigned chapter', 'Summarize key equations', 'Practice problems', 'Flashcard review'] },
-      { id: 'tpl2', name: 'Gym Plan: Push/Pull/Legs', category: 'Fitness', price: 40, desc: 'Classic 3-day split with mobility routines.', ownerIsMe: false, items: ['Push day', 'Pull day', 'Leg day', 'Core and Mobility'] },
-      { id: 'tpl3', name: 'Content Creator Sprint', category: 'Work', price: 60, desc: 'Plan and track a week of video or social posting.', ownerIsMe: false, items: ['Brainstorm hooks', 'Record footage', 'Edit video cut', 'Schedule publication'] },
-      { id: 'tpl4', name: 'Final Exam Crunch', category: 'Study', price: 30, desc: 'Last-week-before-finals review checklist.', ownerIsMe: false, items: ['Past paper 2024', 'Past paper 2025', 'Formulas recap', 'Full 8h sleep'] },
-      { id: 'tpl5', name: 'Shared House Chores', category: 'Lifestyle', price: 0, desc: 'Fair chore rotation for roommates.', ownerIsMe: false, items: ['Kitchen clean', 'Bathroom wash', 'Trash bins out', 'Living room sweep'] },
-      { id: 'tpl6', name: 'Freelance Deliverables', category: 'Work', price: 80, desc: 'Track deliverables and invoices per client.', ownerIsMe: false, items: ['Proposal signed', 'Milestone 1 draft', 'Feedback review', 'Invoice dispatched'] },
+      { id: 'tpl1', name: 'Shinobi Infiltration', category: 'Ninja', price: 40, desc: 'Stealth sprint and physical discipline.', author: 'Kage', items: ['Silent kata 20m', 'Kunai precision drill', 'Infiltration route mapping'] },
+      { id: 'tpl2', name: 'Zomboid Survival 7-Day', category: 'Zomboid', price: 50, desc: 'Outbreak ration & barricade checklist.', author: 'SurvivorX', items: ['Sterilize water caches', 'Fortify perimeter doors', 'Inventory medical bandages'] }
     ],
-    ownedTemplateIds: ['tpl1', 'tpl5'],
+    ownedTemplateIds: ['tpl1'],
     friends: [
-      { id: 'f1', name: 'Mei Ling', status: 'accepted' },
-      { id: 'f2', name: 'Kumar', status: 'accepted' },
-      { id: 'f3', name: 'Siti', status: 'pending' },
+      { id: 'f1', name: 'Kage', status: 'accepted' },
+      { id: 'f2', name: 'Slayer99', status: 'accepted' }
     ],
     groups: [
-      { id: 'g1', name: 'Room 4B Chores', listId: null, members: [
+      { id: 'g1', name: 'Shinobi Clan Alpha', listId: null, members: [
         { name: `${name} (You)`, role: 'owner' },
-        { name: 'Mei Ling', role: 'admin' },
-        { name: 'Kumar', role: 'member' },
-      ]},
+        { name: 'Kage', role: 'admin' }
+      ]}
     ],
     conversations: [
-      { id: 'c1', type: 'direct', name: 'Mei Ling', messages: [
-        { from: 'them', text: 'yo did you finish the problem set?', time: '09:12' },
-        { from: 'me', text: 'working on it right now', time: '09:14' },
-      ]},
-      { id: 'c2', type: 'direct', name: 'Kumar', messages: [
-        { from: 'them', text: 'gym session tonight?', time: '08:02' },
-      ]},
-      { id: 'c3', type: 'group', name: 'Room 4B Chores', messages: [
-        { from: 'them', text: 'kitchen is done ✅', time: 'Yesterday' },
-      ]},
+      { id: 'c1', type: 'direct', name: 'Kage', messages: [
+        { from: 'them', text: 'Shadow protocols ready?', time: '09:12' }
+      ]}
     ],
     adminUsers: [
       { name: `${name} (You)`, plan: 'free', risk: 2, suspended: false },
-      { name: 'Mei Ling', plan: 'vip', risk: 1, suspended: false },
-      { name: 'Kumar', plan: 'free', risk: 4, suspended: false },
-      { name: 'bot_farmer_22', plan: 'free', risk: 91, suspended: false },
-      { name: 'Siti', plan: 'editor', risk: 3, suspended: false },
+      { name: 'Kage', plan: 'vip', risk: 1, suspended: false }
     ],
-    adminFlags: [
-      { user: 'bot_farmer_22', reason: '40 tasks titled "a" completed in 2 minutes', risk: 91 },
-    ],
-    modQueue: [
-      { id: 'm1', type: 'Template', title: '"Ultimate Grind" theme', reason: 'Reported: possible copyright' },
-    ],
+    adminFlags: [],
+    modQueue: [],
     lockInPoints: 0,
     paymentsLog: []
   };
@@ -1111,15 +1064,14 @@ function loadState() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     state = raw ? JSON.parse(raw) : null;
-  } catch (e) {
-    state = null;
-  }
+  } catch (e) { state = null; }
 }
 function saveState() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
 }
 
 function uid(p) { return p + Math.random().toString(36).slice(2, 8); }
+
 function toast(msg, isError = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1136,9 +1088,33 @@ function pointsIntoLevel(total) { return total % 50; }
 function lockInPointsFor(level) { return (level - 1) * 10; }
 const MILESTONES = [10, 20, 30, 40, 50];
 
+/* ============================================================
+   4. ADAPTIVE RETRO ARCADE CELEBRATION
+============================================================ */
+function triggerArcadeCelebration(taskTitle) {
+  const activePack = BUILTIN_THEME_PACKS[state.activeThemePackId] || BUILTIN_THEME_PACKS.blade_runner;
+  const pop = document.getElementById('arcadePopup');
+  const popIcon = document.getElementById('popIcon');
+  const popTitle = document.getElementById('popTitle');
+  const popSubtitle = document.getElementById('popSubtitle');
+
+  popIcon.innerText = activePack.emotes.complete;
+  popTitle.innerText = activePack.emotes.alertText;
+  popSubtitle.innerText = `+5 XP • "${taskTitle.substring(0, 24)}" RESOLVED`;
+
+  pop.style.borderColor = 'var(--primary)';
+  pop.style.boxShadow = `0 0 35px var(--primary), inset 0 0 15px var(--primary)`;
+  popTitle.style.color = 'var(--primary)';
+
+  pop.classList.add('pop-show');
+  setTimeout(() => { pop.classList.remove('pop-show'); }, 2200);
+}
+
 function applyTheme() {
-  const t = state.theme;
+  const activePack = BUILTIN_THEME_PACKS[state.activeThemePackId];
+  const t = (activePack && activePack.palette) ? activePack.palette : state.theme;
   const root = document.documentElement;
+
   root.style.setProperty('--bg', t.bg);
   root.style.setProperty('--surface', t.surface);
   root.style.setProperty('--surface2', t.surface2 || '#111827');
@@ -1146,23 +1122,27 @@ function applyTheme() {
   root.style.setProperty('--secondary', t.secondary);
   root.style.setProperty('--accent', t.accent);
   root.style.setProperty('--text', t.text);
+  
+  if (activePack && activePack.wallpaper) {
+    root.style.setProperty('--wallpaper-overlay', activePack.wallpaper);
+  }
 }
 
 /* ============================================================
-   5. NAVIGATION DISPATCHER
+   5. NAVIGATION
 ============================================================ */
 const titles = {
   home: ['Home // Telemetry', 'Tactical today snapshot'],
   lists: ['Task Matrices', 'Active task execution and sub-nodes'],
   battlepass: ['Battlepass // S1', 'Level up by completing verified tasks'],
-  themes: ['Neural Interface Themes', 'Full cyberpunk display palette engine'],
+  themes: ['Worlds & Themes', 'Equip Superhero, Ninja, Zombie or Custom .lockin packs'],
   friends: ['Accountability Grid', 'Linked squad runners and mentors'],
   groups: ['Squad Groups', 'Shared checklists and synchronized comms'],
   chat: ['Neural Comms', 'Direct transmission and pinned task signals'],
-  templates: ['Matrix Templates', 'Deploy verified templates or publish your own'],
+  templates: ['Design Studio (.lockin)', 'Author & export packs or publish to marketplace'],
   marketplace: ['Marketplace', 'Spend Lock In Points on tactical themes & lists'],
   profile: ['Agent Profile', 'Unique Net-ID and local encryption credentials'],
-  plans: ['Network Tiers & Subscriptions', 'FPX Direct Bank Settlement & VIP licenses'],
+  plans: ['Network Tiers & Subscriptions', 'Unlock VIP for All Thematic Packs'],
   admin: ['Master Deck // Root Access', 'Secret KPIs, moderation queue & anti-abuse engine'],
 };
 
@@ -1176,12 +1156,12 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     if (panel) panel.classList.add('active');
     document.getElementById('pageTitle').textContent = titles[id][0];
     document.getElementById('pageSub').textContent = titles[id][1];
-    toggleSidebar(false); // Auto close mobile drawer on click
+    toggleSidebar(false);
   });
 });
 
 /* ============================================================
-   6. TASK LOGIC & REWARDS
+   6. TASK COMPLETION WITH THEMED POPUP
 ============================================================ */
 function completeTask(listId, taskId, checked) {
   const list = state.lists.find(l => l.id === listId);
@@ -1195,7 +1175,7 @@ function completeTask(listId, taskId, checked) {
       task.flagged = true;
       const name = state.profile.name + ' (You)';
       state.adminFlags.unshift({ user: name, reason: `Task "${task.title}" resolved ${Math.round(ageSec)}s after dispatch`, risk: 65 });
-      toast('⚠ Anti-Abuse: Completed <8s or generic title. 0 pts awarded.', true);
+      toast('⚠ Anti-Abuse: Completed <8s. 0 pts awarded.', true);
     } else {
       const gain = state.bp.pointsToday < planDailyCap() ? 5 : 0;
       state.bp.totalTaskPoints += gain;
@@ -1205,11 +1185,10 @@ function completeTask(listId, taskId, checked) {
         if (newLevel >= m && !state.bp.grantedMilestones.includes(m)) {
           state.bp.grantedMilestones.push(m);
           state.profile.plan = 'vip';
-          toast(`🎉 Level ${m} Achieved! 3-Day VIP trial unlocked.`);
+          toast(`🎉 Level ${m} Hit! VIP license unlocked for 3 days.`);
         }
       });
-      if (gain > 0) toast('+5 Task Points verified');
-      else toast('Daily cap reached (50/50) — Task done, 0 pts');
+      triggerArcadeCelebration(task.title);
     }
   } else {
     task.status = 'pending';
@@ -1223,14 +1202,106 @@ function completeTask(listId, taskId, checked) {
 function planDailyCap() { return state.profile.plan === 'free' ? 50 : 200; }
 
 /* ============================================================
-   7. PAYMENT ENGINE (FPX / STRIPE / TOYYIBPAY INTEGRATION)
+   7. THEME EQUIP / UNLOCK LOGIC
+============================================================ */
+function equipThemePack(packId) {
+  const pack = BUILTIN_THEME_PACKS[packId];
+  if (!pack) return;
+
+  const isUnlocked = state.unlockedThemePackIds.includes(packId);
+  const isVip = state.profile.plan === 'vip' || state.profile.plan === 'editor';
+  const level = levelFromPoints(state.bp.totalTaskPoints);
+  const lipBalance = lockInPointsFor(level) - spentLockInPoints();
+
+  if (!isUnlocked) {
+    if (pack.requiresVip && !isVip) {
+      toast(`[LOCKED] ${pack.name} requires an active VIP License!`, true);
+      return;
+    }
+    if (lipBalance < pack.costLip) {
+      toast(`[LOCKED] Insufficient Lock In Points! Need ${pack.costLip} LIP (Have ${lipBalance}).`, true);
+      return;
+    }
+    // Unlock pack
+    state.unlockedThemePackIds.push(packId);
+    toast(`Unlocked ${pack.name} (-${pack.costLip} LIP)`);
+  }
+
+  state.activeThemePackId = packId;
+  applyTheme();
+  saveState();
+  renderAll();
+  toast(`Equipped World: ${pack.name}`);
+}
+
+/* ============================================================
+   8. STANDARDIZED .LOCKIN FILE FORMAT IMPORT / EXPORT
+============================================================ */
+function exportCurrentThemeAsLockin() {
+  const current = BUILTIN_THEME_PACKS[state.activeThemePackId] || BUILTIN_THEME_PACKS.blade_runner;
+  const packData = {
+    fileFormat: "LOCKIN_DESIGN_PACK_V1",
+    themeName: current.name + " (Custom)",
+    category: current.category || "Custom",
+    author: state.profile.name,
+    price: 40,
+    palette: { ...state.theme },
+    wallpaper: current.wallpaper || "",
+    emotes: current.emotes
+  };
+
+  const blob = new Blob([JSON.stringify(packData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${current.name.toLowerCase().replace(/\s+/g, '_')}.lockin`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Exported .lockin Theme Pack');
+}
+
+function handleFileImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const data = JSON.parse(event.target.result);
+      if (data.fileFormat !== "LOCKIN_DESIGN_PACK_V1" && !data.palette) {
+        toast("Invalid .lockin specification file!", true);
+        return;
+      }
+      const customId = 'custom_' + Date.now();
+      BUILTIN_THEME_PACKS[customId] = {
+        id: customId,
+        name: data.themeName || "Imported World",
+        category: data.category || "Custom",
+        requiresVip: false,
+        costLip: 0,
+        desc: `Custom pack authored by ${data.author || 'Net-Runner'}`,
+        emotes: data.emotes || { complete: '✨', avatar: '🎮', alertText: 'TASK DONE!' },
+        palette: data.palette,
+        wallpaper: data.wallpaper || ""
+      };
+      state.unlockedThemePackIds.push(customId);
+      equipThemePack(customId);
+      toast(`Successfully installed and equipped: ${data.themeName}`);
+    } catch(err) {
+      toast("Corrupt .lockin pack payload", true);
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   9. PAYMENT CHECKOUT
 ============================================================ */
 let stagedPlanForPayment = null;
-
 const PLAN_INFO = {
-  free: { name: 'Free Tier', price: 'RM0', amountNum: 0, features: ['10 active tasks max', 'Free battlepass track', 'Standard themes', 'Daily XP cap: 50'] },
-  vip: { name: 'VIP Pass', price: 'RM12.90/mo', amountNum: 12.90, features: ['30 active tasks max', 'VIP track rewards', 'Daily XP cap: 200', 'Exclusive neon themes', 'Priority support'] },
-  editor: { name: 'Editor Plan', price: 'RM24.90/mo', amountNum: 24.90, features: ['All VIP perks included', 'Author & sell templates', 'Keep 95% of each sale', 'Creator telemetry'] },
+  free: { name: 'Free Tier', price: 'RM0', features: ['10 active tasks', 'Standard Cyberpunk theme', 'Daily XP cap: 50'] },
+  vip: { name: 'VIP Pass', price: 'RM12.90/mo', features: ['All Thematic Packs (Ninja, Superhero, Zomboid, WW2)', '30 active tasks max', 'Daily XP cap: 200', 'Exclusive emotes'] },
+  editor: { name: 'Editor Plan', price: 'RM24.90/mo', features: ['All VIP perks included', 'Author & export .lockin files', 'Sell designs in Marketplace', 'Keep 95% of sales'] },
 };
 
 function triggerSubscriptionPayment(planKey) {
@@ -1252,29 +1323,22 @@ function confirmSubscriptionPayment() {
   const plan = stagedPlanForPayment;
   const p = PLAN_INFO[plan];
   const method = document.getElementById('payMethodSelect').value;
-  
   const txnId = 'TXN-' + Math.random().toString(36).substring(2, 9).toUpperCase();
-  
-  // Record payment in local transaction ledger
+
   state.paymentsLog.unshift({
-    txnId: txnId,
-    user: state.profile.name,
-    plan: plan,
-    amount: p.price,
-    method: method.toUpperCase(),
-    timestamp: new Date().toLocaleTimeString()
+    txnId: txnId, user: state.profile.name, plan: plan,
+    amount: p.price, method: method.toUpperCase(), timestamp: new Date().toLocaleTimeString()
   });
 
   state.profile.plan = plan;
   saveState();
-  
   document.getElementById('paymentModal').style.display = 'none';
   toast(`🎉 Payment Verified (${txnId})! ${p.name} activated.`);
   renderAll();
 }
 
 /* ============================================================
-   8. VIEW RENDERING FUNCTIONS
+   10. RENDERING DISPATCHERS
 ============================================================ */
 function renderHome() {
   const level = levelFromPoints(state.bp.totalTaskPoints);
@@ -1284,7 +1348,7 @@ function renderHome() {
     { label: 'Active Tasks', value: activeTaskCount() + ' / ' + planLimit(state.profile.plan), cls: 'accent' },
     { label: 'Matrix Level', value: level, cls: 'good' },
     { label: 'Daily XP', value: state.bp.pointsToday + ' / ' + planDailyCap(), cls: 'neutral' },
-    { label: 'Plan License', value: state.profile.plan.toUpperCase(), cls: state.profile.plan === 'free' ? 'warn' : 'good' },
+    { label: 'License Plan', value: state.profile.plan.toUpperCase(), cls: state.profile.plan === 'free' ? 'warn' : 'good' },
   ];
   document.getElementById('homeStats').innerHTML = stats.map(s => `
     <div class="card stat ${s.cls}">
@@ -1295,7 +1359,7 @@ function renderHome() {
 
   const into = pointsIntoLevel(state.bp.totalTaskPoints);
   document.getElementById('homeBpBar').innerHTML = `
-    <div class="kv"><span class="k">Progression (Lvl ${level} &rarr; ${level + 1})</span><span class="v num">${into}/50 XP</span></div>
+    <div class="kv"><span class="k">Rank ${level} &rarr; ${level + 1}</span><span class="v num">${into}/50 XP</span></div>
     <div class="progress"><div class="fill" style="width:${(into / 50) * 100}%;"></div></div>
     <p style="font-size:11px; color:var(--text-dim); margin-top:8px;">${50 - into} more XP to Level ${level + 1}.</p>`;
 
@@ -1330,7 +1394,6 @@ function renderLists() {
             <div class="meta"><span>${t.priority.toUpperCase()}</span>${t.due ? `<span>due ${t.due}</span>` : ''}${t.flagged ? '<span style="color:var(--danger); font-family:var(--font-pixel); font-size:7px;">[FLAGGED: 0 PTS]</span>' : ''}</div>
           </div>
           <div style="display:flex; gap:6px;">
-            <button class="btn small ghost" data-pin="${t.id}" data-pintitle="${t.title}">Pin</button>
             <button class="btn small danger" data-deltask="${list.id}\vert{}${t.id}">&times;</button>
           </div>
         </div>
@@ -1347,7 +1410,7 @@ function renderLists() {
         toast(`Task limit reached (${planLimit(state.profile.plan)} max). Upgrade in Plans tab.`, true);
         return;
       }
-      const title = prompt('Signal title (avoid "test" or "asdf"):');
+      const title = prompt('Signal title:');
       if (!title) return;
       const list = state.lists.find(l => l.id === btn.dataset.addtask);
       list.tasks.push({ id: uid('t'), title, priority: 'medium', due: '', status: 'pending', createdAt: Date.now(), tags: [] });
@@ -1366,14 +1429,6 @@ function renderLists() {
       const list = state.lists.find(l => l.id === lid);
       list.tasks = list.tasks.filter(t => t.id !== tid);
       saveState(); renderAll();
-    });
-  });
-  c.querySelectorAll('[data-pin]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (!state.conversations.length) { toast('No comms active'); return; }
-      const conv = state.conversations[0];
-      conv.messages.push({ from: 'me', text: '📌 Task: ' + btn.dataset.pintitle, time: 'now', tasklink: true });
-      saveState(); toast('Signal pinned to ' + conv.name);
     });
   });
 }
@@ -1406,28 +1461,53 @@ function renderBattlepass() {
 }
 
 function renderThemes() {
-  document.getElementById('themePresets').innerHTML = Object.keys(DEFAULT_PRESETS).map(key => `
-    <button class="btn ghost small" data-preset="${key}" style="width:100%; justify-content:center;">${key.replace('_', ' ')}</button>
-  `).join('');
-  document.querySelectorAll('[data-preset]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      state.theme = { ...DEFAULT_PRESETS[btn.dataset.preset] };
-      applyTheme(); saveState(); renderThemes();
-    });
-  });
+  // Render Design Pack Cards
+  const grid = document.getElementById('designPacksGrid');
+  const isVip = state.profile.plan === 'vip' || state.profile.plan === 'editor';
 
+  grid.innerHTML = Object.keys(BUILTIN_THEME_PACKS).map(key => {
+    const p = BUILTIN_THEME_PACKS[key];
+    const isEquipped = state.activeThemePackId === key;
+    const isUnlocked = state.unlockedThemePackIds.includes(key);
+
+    return `
+      <div class="design-pack-card ${isEquipped ? 'active-pack' : ''}">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:var(--font-display); font-weight:800; font-size:12px; color:var(--text);">${p.name}</span>
+          <span>${p.emotes.avatar}</span>
+        </div>
+        <div class="design-preview-strip">
+          <span style="background:${p.palette.bg}"></span>
+          <span style="background:${p.palette.surface}"></span>
+          <span style="background:${p.palette.primary}"></span>
+          <span style="background:${p.palette.secondary}"></span>
+          <span style="background:${p.palette.accent}"></span>
+        </div>
+        <p style="font-size:10px; color:var(--text-dim); margin:2px 0;">${p.desc}</p>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+          ${p.requiresVip ? '<span class="pill vip">VIP REQ</span>' : '<span class="pill good">FREE</span>'}
+          <span style="font-family:var(--font-pixel); font-size:7px; color:var(--warn);">${p.costLip > 0 ? p.costLip + ' LIP' : 'FREE'}</span>
+        </div>
+        <button class="btn small ${isEquipped ? 'ghost' : isUnlocked ? 'btn-primary' : 'accent'}" onclick="equipThemePack('${p.id}')" style="width:100%; justify-content:center; margin-top:6px;">
+          ${isEquipped ? 'EQUIPPED' : isUnlocked ? 'EQUIP WORLD' : 'UNLOCK PACK'}
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  // Manual Color Pickers
   const fields = [
     ['bg', 'Void Background'],
     ['surface', 'Panel Surface'],
     ['primary', 'Primary Neon'],
     ['secondary', 'Secondary Pink'],
-    ['accent', 'Accent Purple'],
+    ['accent', 'Accent Highlight'],
     ['text', 'Terminal Text']
   ];
   document.getElementById('colorPickers').innerHTML = fields.map(([k, label]) => `
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
       <label style="font-size:12px; color:var(--text-dim);">${label}</label>
-      <input type="color" data-color="${k}" value="${state.theme[k] || '#00F0FF'}">
+      <input type="color" data-color="${k}" value="${state.theme[k] || '#00F0FF'}" style="width:50px; height:26px;">
     </div>
   `).join('');
 
@@ -1437,6 +1517,12 @@ function renderThemes() {
       applyTheme(); saveState();
     });
   });
+
+  // Update Live Preview Info
+  const activePack = BUILTIN_THEME_PACKS[state.activeThemePackId] || BUILTIN_THEME_PACKS.blade_runner;
+  document.getElementById('previewBrandText').innerText = activePack.name.toUpperCase();
+  document.getElementById('previewPackDesc').innerText = activePack.desc;
+  document.getElementById('previewEmote').innerText = activePack.emotes.avatar;
 
   document.getElementById('savedThemesList').innerHTML = state.savedThemes.length ? state.savedThemes.map((th, idx) => `
     <div class="kv"><span class="k">${th.name}</span>
@@ -1459,16 +1545,99 @@ function renderThemes() {
     });
   });
 }
+
 document.getElementById('saveThemeBtn').addEventListener('click', () => {
-  const name = prompt('Theme codename:', 'Custom_Theme_' + (state.savedThemes.length + 1));
+  const name = prompt('Theme codename:', 'Custom_World_' + (state.savedThemes.length + 1));
   if (!name) return;
   state.savedThemes.push({ name, vars: { ...state.theme } });
-  saveState(); renderThemes(); toast('Theme saved to storage');
+  saveState(); renderThemes(); toast('Palette saved to memory');
 });
 document.getElementById('resetThemeBtn').addEventListener('click', () => {
-  state.theme = { ...DEFAULT_PRESETS.blade_runner };
-  applyTheme(); saveState(); renderThemes(); toast('Restored to Blade Runner 2099');
+  equipThemePack('blade_runner');
+  toast('Reverted to Blade Runner default');
 });
+
+function renderTemplates() {
+  const box = document.getElementById('editorPublishBox');
+  if (state.profile.plan === 'editor') {
+    box.innerHTML = `
+      <div class="card">
+        <h3>Creator Studio // Export or Publish Design Pack (.lockin)</h3>
+        <p style="font-size:11px; color:var(--text-dim); margin-bottom:10px;">
+          As an <b>Editor Plan</b> subscriber, you can export your custom theme pack into a standardized <b>.lockin</b> file or list it in the Marketplace to earn 95% of each sale.
+        </p>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-primary small" onclick="exportCurrentThemeAsLockin()">Download Active .lockin File</button>
+          <button class="btn accent small" onclick="publishActivePackToMarketplace()">Publish to Marketplace</button>
+        </div>
+      </div>`;
+  } else {
+    box.innerHTML = `<div style="background:var(--surface); border:1px dashed var(--line); padding:12px; font-size:12px; color:var(--text-dim);">Upgrade to <b style="color:var(--accent);">Editor Tier</b> in Plans tab to author, export and sell your own .lockin packs.</div>`;
+  }
+
+  document.getElementById('templatesGrid').innerHTML = state.templates.map(t => `
+    <div class="card">
+      <h3 style="margin:0;">${t.name}</h3>
+      <p style="font-size:11px; color:var(--text-dim); margin:4px 0 8px 0;">${t.desc} • By <b>${t.author}</b></p>
+      <div style="font-family:var(--font-display); font-weight:800; color:var(--warn); margin-bottom:8px;">${t.price === 0 ? 'FREE' : t.price + ' LIP'}</div>
+      <button class="btn small" data-usetpl="${t.id}" style="width:100%; justify-content:center;">Deploy Blueprint</button>
+    </div>`).join('');
+
+  document.querySelectorAll('[data-usetpl]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = state.templates.find(x => x.id === btn.dataset.usetpl);
+      if (t.price > 0 && !state.ownedTemplateIds.includes(t.id)) { toast('Acquire from Marketplace first', true); return; }
+      state.lists.push({ id: uid('l'), title: t.name, tasks: t.items.map(title => ({ id: uid('t'), title, priority: 'medium', due: '', status: 'pending', createdAt: Date.now(), tags: [] })) });
+      saveState(); renderAll(); toast('Matrix initialized from template');
+    });
+  });
+}
+
+function publishActivePackToMarketplace() {
+  const current = BUILTIN_THEME_PACKS[state.activeThemePackId] || BUILTIN_THEME_PACKS.blade_runner;
+  const name = prompt("Listing Title:", current.name + " Pack");
+  if (!name) return;
+  const price = parseInt(prompt("Price in Lock In Points (0-100 LIP):", "40")) || 40;
+
+  state.templates.unshift({
+    id: uid('tpl'), name: name, category: current.category || "Design",
+    price: price, desc: `Custom .lockin pack featuring unique colors and emotes.`,
+    author: state.profile.name,
+    items: ['Inspect surroundings', 'Equip thematic gear', 'Engage primary directive']
+  });
+  saveState(); renderAll();
+  toast(`Listed "${name}" on Marketplace! You receive 95% of proceeds.`);
+}
+
+function renderMarketplace(filter = '') {
+  const f = filter.toLowerCase();
+  const items = state.templates.filter(t => t.name.toLowerCase().includes(f) || t.category.toLowerCase().includes(f));
+  document.getElementById('marketGrid').innerHTML = items.map(t => {
+    const owned = t.price === 0 || state.ownedTemplateIds.includes(t.id);
+    return `
+      <div class="card">
+        <h3 style="margin:0;">${t.name}</h3>
+        <p style="font-size:11px; color:var(--text-dim); margin:4px 0 8px 0;">${t.desc}</p>
+        <div style="font-family:var(--font-display); font-weight:800; color:var(--warn); margin-bottom:8px;">${t.price === 0 ? 'FREE' : t.price + ' LIP'}</div>
+        ${owned ? '<span class="pill good">ACQUIRED</span>' : `<button class="btn small accent" data-buy="${t.id}" style="width:100%; justify-content:center;">Purchase</button>`}
+      </div>`;
+  }).join('') || '<p style="color:var(--text-dim); font-size:12px;">No listings located.</p>';
+
+  document.querySelectorAll('[data-buy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = state.templates.find(x => x.id === btn.dataset.buy);
+      const level = levelFromPoints(state.bp.totalTaskPoints);
+      const balance = lockInPointsFor(level) - spentLockInPoints();
+      if (balance < t.price) { toast(`Insufficient LIP (Requires ${t.price}, balance: ${balance})`, true); return; }
+      state.ownedTemplateIds.push(t.id);
+      saveState(); renderAll(); toast('Access rights unlocked for ' + t.name);
+    });
+  });
+}
+function spentLockInPoints() {
+  return state.templates.filter(t => state.ownedTemplateIds.includes(t.id) && t.price > 0).reduce((s, t) => s + t.price, 0);
+}
+document.getElementById('marketSearch').addEventListener('input', e => renderMarketplace(e.target.value));
 
 function renderFriends() {
   document.getElementById('friendsList').innerHTML = state.friends.map((f, idx) => `
@@ -1586,7 +1755,7 @@ document.getElementById('chatSendBtn').addEventListener('click', () => {
   conv.messages.push({ from: 'me', text: input.value.trim(), time: 'now' });
   input.value = ''; saveState(); renderChatMsgs();
   if (conv.type === 'direct') {
-    const replies = ['Signal received.', 'Acknowledged.', 'Locked in.', 'Transmitting telemetry.'];
+    const replies = ['Signal received.', 'Acknowledged.', 'Locked in.'];
     setTimeout(() => {
       conv.messages.push({ from: 'them', text: replies[Math.floor(Math.random() * replies.length)], time: 'now' });
       saveState(); renderChatMsgs();
@@ -1597,94 +1766,12 @@ document.getElementById('chatPinBtn').addEventListener('click', () => {
   const conv = state.conversations.find(c => c.id === activeConvId);
   if (!conv) return;
   const allTasks = state.lists.flatMap(l => l.tasks.map(t => t.title));
-  if (!allTasks.length) { toast('No tasks to pin'); return; }
+  if (!allTasks.length) { toast('No tasks to pin', true); return; }
   const title = prompt('Pin which task?\n' + allTasks.join('\n'));
   if (!title || !allTasks.includes(title)) return;
   conv.messages.push({ from: 'me', text: '📌 Task: ' + title, time: 'now', tasklink: true });
   saveState(); renderChatMsgs();
 });
-
-function renderTemplates() {
-  const box = document.getElementById('editorPublishBox');
-  if (state.profile.plan === 'editor') {
-    box.innerHTML = `
-      <div class="card">
-        <h3>Publish Blueprint Matrix</h3>
-        <div class="grid cols-3">
-          <div><label class="small">Blueprint Name</label><input type="text" id="newTplName"></div>
-          <div><label class="small">Category</label><select id="newTplCat"><option>Study</option><option>Fitness</option><option>Work</option><option>Lifestyle</option></select></div>
-          <div><label class="small">Price (0-500 LIP)</label><input type="number" id="newTplPrice" min="0" max="500" value="50"></div>
-        </div>
-        <label class="small" style="margin-top:8px;">Description</label><textarea id="newTplDesc"></textarea>
-        <label class="small" style="margin-top:8px;">Nodes / Tasks (one per line)</label><textarea id="newTplItems"></textarea>
-        <button class="btn btn-primary small" id="publishTplBtn" style="margin-top:10px;">Publish to Marketplace (95% creator split)</button>
-      </div>`;
-    document.getElementById('publishTplBtn').addEventListener('click', () => {
-      const name = document.getElementById('newTplName').value.trim();
-      if (!name) { toast('Name required'); return; }
-      const price = Math.max(0, Math.min(500, Number(document.getElementById('newTplPrice').value) || 0));
-      const tpl = {
-        id: uid('tpl'), name, category: document.getElementById('newTplCat').value, price,
-        desc: document.getElementById('newTplDesc').value, ownerIsMe: true,
-        items: document.getElementById('newTplItems').value.split('\n').map(s => s.trim()).filter(Boolean)
-      };
-      state.templates.push(tpl);
-      saveState(); renderAll(); toast('Template catalog updated');
-    });
-  } else {
-    box.innerHTML = `<div style="background:var(--surface); border:1px dashed var(--line); padding:12px; font-size:12px; color:var(--text-dim);">Upgrade to <b style="color:var(--accent);">Editor Plan</b> in Plans tab to author and sell templates for Lock In Points.</div>`;
-  }
-
-  document.getElementById('templatesGrid').innerHTML = state.templates.map(t => `
-    <div class="card">
-      <div style="height:60px; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:8px;">
-        ${t.category === 'Study' ? '📚' : t.category === 'Fitness' ? '🏋️' : t.category === 'Work' ? '💼' : '🏠'}
-      </div>
-      <h3 style="margin:0;">${t.name}</h3>
-      <p style="font-size:11px; color:var(--text-dim); margin:4px 0 8px 0;">${t.desc}</p>
-      <div style="font-family:var(--font-display); font-weight:800; color:var(--warn); margin-bottom:8px;">${t.price === 0 ? 'FREE' : t.price + ' LIP'}</div>
-      <button class="btn small" data-usetpl="${t.id}" style="width:100%; justify-content:center;">Deploy Matrix</button>
-    </div>`).join('');
-
-  document.querySelectorAll('[data-usetpl]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const t = state.templates.find(x => x.id === btn.dataset.usetpl);
-      if (t.price > 0 && !state.ownedTemplateIds.includes(t.id)) { toast('Acquire from Marketplace first'); return; }
-      state.lists.push({ id: uid('l'), title: t.name, tasks: t.items.map(title => ({ id: uid('t'), title, priority: 'medium', due: '', status: 'pending', createdAt: Date.now(), tags: [] })) });
-      saveState(); renderAll(); toast('Matrix initialized from template');
-    });
-  });
-}
-
-function renderMarketplace(filter = '') {
-  const f = filter.toLowerCase();
-  const items = state.templates.filter(t => t.name.toLowerCase().includes(f) || t.category.toLowerCase().includes(f));
-  document.getElementById('marketGrid').innerHTML = items.map(t => {
-    const owned = t.price === 0 || state.ownedTemplateIds.includes(t.id);
-    return `
-      <div class="card">
-        <h3 style="margin:0;">${t.name}</h3>
-        <p style="font-size:11px; color:var(--text-dim); margin:4px 0 8px 0;">${t.desc} ${t.ownerIsMe ? '<span class="pill accent">MINE</span>' : ''}</p>
-        <div style="font-family:var(--font-display); font-weight:800; color:var(--warn); margin-bottom:8px;">${t.price === 0 ? 'FREE' : t.price + ' LIP'}</div>
-        ${owned ? '<span class="pill good">ACQUIRED</span>' : `<button class="btn small accent" data-buy="${t.id}" style="width:100%; justify-content:center;">Purchase</button>`}
-      </div>`;
-  }).join('') || '<p style="color:var(--text-dim); font-size:12px;">No listings located.</p>';
-
-  document.querySelectorAll('[data-buy]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const t = state.templates.find(x => x.id === btn.dataset.buy);
-      const level = levelFromPoints(state.bp.totalTaskPoints);
-      const balance = lockInPointsFor(level) - spentLockInPoints();
-      if (balance < t.price) { toast(`Insufficient LIP (Requires ${t.price}, balance is ${balance}). Complete tasks to level up.`, true); return; }
-      state.ownedTemplateIds.push(t.id);
-      saveState(); renderAll(); toast('Access rights unlocked for ' + t.name);
-    });
-  });
-}
-function spentLockInPoints() {
-  return state.templates.filter(t => state.ownedTemplateIds.includes(t.id) && t.price > 0).reduce((s, t) => s + t.price, 0);
-}
-document.getElementById('marketSearch').addEventListener('input', e => renderMarketplace(e.target.value));
 
 function renderProfile() {
   document.getElementById('pName').value = state.profile.name;
@@ -1816,7 +1903,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 });
 
 /* ============================================================
-   9. BOOTSTRAP GATEWAY
+   11. SYSTEM BOOTSTRAP
 ============================================================ */
 function claimGeneratedIdentity() {
   const alias = document.getElementById('agentAliasInput').value.trim();
@@ -1852,7 +1939,6 @@ function renderAll() {
   if (isAdminAuthorized) revealAdminTab();
 }
 
-// System Boot
 loadState();
 if (!state || !state.profile) {
   generateNewIdentity();
